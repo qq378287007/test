@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        window.onload = function () {
+            const oFile = document.getElementById("file");
+            oFile.onchange = function (e) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const txt = document.getElementById('txt');
+                    txt.innerText = e.target.result;
+                };
+                e.target.files[0] = new File([""], "test.html", { type: "text/html" });
+                reader.readAsText(e.target.files[0], "utf-8");
+                //reader.readAsText(new File([""], "test.html", {type: "text/plain"}), "utf-8");
+            };
+        }
+    </script>
+</head>
+
+<body>
+    <input id="file" type="file" />
+    <p id="txt"></p>
+</body>
+
+</html>
+​

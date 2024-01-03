@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        window.onload = function () {
+            if (window.FileReader) {
+                const txt = document.getElementById('txt');
+                txt.innerHTML = 'empty';
+
+                const reader = new FileReader();
+                reader.onerror = function (e) {
+                    txt.innerHTML = 'error!';
+                }
+                reader.onloadend = function (e) {
+                    txt.innerHTML = reader.result;;
+                    //txt.innerHTML = 'onloadend';
+                }
+                //reader.readAsText(new Blob(["test.html"], {type: 'text/html'}), 'utf-8');
+                reader.readAsText(new File(["手动生成的File对象"], "test.html", { type: "text/html" }), 'utf-8');
+                //txt.innerHTML = 'after read';
+
+                /*
+                reader.onloadend = function (e) {
+                    //txt.innerHTML = e.target.result;;
+                    txt.innerHTML = '4444';
+                }
+                reader.onerror = function (e) {
+                    txt.innerHTML = 'error!';
+                }
+                */
+
+                //reader.readAsText("C:\\Users\\HP\\Desktop\\test\\test.html", 'utf-8');
+                //reader.readAsText("tt", 'utf-8');
+            } else {
+                alert("not supported!");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <p id="txt"></p>
+</body>
+
+</html>
