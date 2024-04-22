@@ -1,0 +1,43 @@
+template<typename F, typename... Ts>
+auto reallyAsync(F &&f, Ts &&...params)
+{
+    return std::async(std::launch::async, std::forward<F>(f), std::forward<Ts>(params)...);
+}
+
+auto functions = std::bind(&MeshAlgoDLL::startDLL, this, cmd);//绑定函数
+auto future = reallyAsync(functions);//异步执行
+std::future_status status;
+do {
+    status = future.wait_for(std::chrono::milliseconds(10));
+    switch (status) {
+    case std::future_status::deferred:
+        qDebug() << "deferred!";
+        break;
+    case std::future_status::timeout:
+        qDebug() << "timeout!";
+        break;
+    case std::future_status::ready:
+        qDebug() << "ready! thread exit return status:" << future.get();
+        return;
+    default:
+        break;
+    }
+} while (status != std::future_status::ready);//等待结束
+
+
+//qt异步执行
+//QProcess
+QFuture<bool>        qFuture;
+QFutureWatcher<bool> watcher;
+auto functions = std::bind(&MeshAlgoDLL::startDLL, this, cmd);
+if (!qFuture.isRunning()) {
+    qFuture = QtConcurrent::run(functions);
+    watcher.setFuture(qFuture);
+} else {
+    qDebug() << "please wait for previous mesh result !\n\n";
+    //mTask.enqueue(std::move(cmd));
+}
+emit sigAlgoExecOver(MeshAlgoStatus::WaitForFinish);
+
+QThreadPool
+
