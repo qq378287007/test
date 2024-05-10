@@ -5,6 +5,7 @@ def change_file(suffix = '.html', directory = os.getcwd()):
     for file in os.listdir(directory):
         if(file.endswith(suffix)):
             old_file = file
+            old_file = os.path.join(directory, old_file)
             file = file[:-n]
             file = file.replace('.', '-')
             new_file = []
@@ -14,10 +15,10 @@ def change_file(suffix = '.html', directory = os.getcwd()):
                 new_file.append(str)
             new_file = '-'.join(new_file)
             new_file += suffix
-            new_file = os.path.join(directory, new_file)
             os.rename(old_file, new_file)
         
 #directory = os.getcwd()
 #suffix = '.html'
-change_file()
-change_file('.cpp')
+#change_file()
+#change_file('.cpp')
+change_file('.go', 'C:\\Users\\HP\\Desktop\\goWebActualCombat\\03')
